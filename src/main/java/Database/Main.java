@@ -8,7 +8,7 @@ import java.util.Scanner;
  */
 
 public class Main {
-
+//привет
     static String FIO;
     static Integer year;
     static Integer month;
