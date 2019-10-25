@@ -48,7 +48,7 @@
                     <outputDirectory>${project.build.directory}/mvn-repo</outputDirectory>
                     <branch>refs/heads/mvn-repo</branch>
                     <includes><include>**/*</include></includes>
-                    <repositoryName>MvnProject</repositoryName>
+                    <repositoryName>BaseLab</repositoryName>
                     <repositoryOwner>metroniko</repositoryOwner>
                 </configuration>
                 <executions>
