@@ -1,4 +1,5 @@
-package Database;
+package com.database;
+
 
 /**
  * this class contains a database
@@ -14,7 +15,11 @@ public class Base {
      */
     private int personLenght = 0;
 
-
+    /**
+     *  a method that retrieves an item from a database
+     * @param requiredPerson the object to be removed from the database
+     * @return if the object is present, it returns it
+     */
     private Person getPerson(Person requiredPerson) {
         for (int i = 0; i < personLenght; i++) {
             if (  personBase[i].equals(requiredPerson)) {
@@ -60,11 +65,6 @@ public class Base {
         }
     }
 
-    /**
-     *
-     * @return
-     */
-    public Person[] getPersonArrayList() {return personBase;}
 
     /**
      * the method implements adding items to the database
@@ -75,7 +75,7 @@ public class Base {
         if (personBase.length == personLenght) {
             Person[] newPersonBase = new Person[personBase.length+5];
 
-            for (int i = 0; i < personBase.length; i++) {
+            for(int i = 0; i < personBase.length; i++) {
                 newPersonBase[i] = personBase[i];
             }
             personBase = newPersonBase;
@@ -91,11 +91,7 @@ public class Base {
 
     }
 
-    /**
-     *  a method that retrieves an item from a database
-     * @param requiredPerson the object to be removed from the database
-     * @return if the object is present, it returns it
-     */
+
 
 
     /**
