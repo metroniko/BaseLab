@@ -1,46 +1,42 @@
 package com.database;
 
-
 /**
- * this class contains a database
+ * this class describes the database.
  */
 public class Base {
-    /**
-     * a field that stores database items
+    /**.
+     * a field that stores database items.
      */
     private Person[] personBase = new Person[10];
 
-    /**
-     * number of items in the database
+    /**.
+     * number of items in the database.
      */
     private int personLenght = 0;
 
     /**
-     *  a method that retrieves an item from a database
-     * @param requiredPerson the object to be removed from the database
-     * @return if the object is present, it returns it
+     *  a method that retrieves an item from a database.
+     * @param requiredPerson the object to be removed from the database.
+     * @return if the object is present, it returns it.
      */
-    private Person getPerson(Person requiredPerson) {
+    private Person getPerson(final Person requiredPerson) {
         for (int i = 0; i < personLenght; i++) {
-            if (  personBase[i].equals(requiredPerson)) {
+            if (personBase[i].equals(requiredPerson)) {
                 return personBase[i];
             }
         }
         return null;
     }
 
-    public int getPersonLenght() {
-        return personLenght;
-    }
 
     /**
-     * a method that retrieves an item from a database by user name
-     * @param requiredName name to be found
-     * @return if the object is present, it returns it
+     * a method that retrieves an item from a database by user name.
+     * @param requiredName name to be found.
+     * @return if the object is present, it returns it.
      */
-    public Person getPersonbyFIO(String requiredName) {
+    public final Person getPersonbyFIO(final String requiredName) {
         for (int i = 0; i < personLenght; i++) {
-            if (requiredName.equals(personBase[i].getFIO())) {
+            if (requiredName.equals(personBase[i].getFio())) {
                 return personBase[i];
             }
         }
@@ -48,13 +44,13 @@ public class Base {
     }
 
     /**
-     * a method that removes a user by name
-     * @param deletedName the field name of the object to be deleted
+     * a method that removes a user by name.
+     * @param deletedName the field name of the object to be deleted.
      */
-    public void deletePersonbyFIO(String deletedName) {
+    public final void deletePersonbyFIO(final String deletedName) {
         for (int i = 0; i < personLenght; i++) {
-            if (deletedName.equals(personBase[i].getFIO())) {
-                for (int j = i; j < personLenght - 1 ; j++) {
+            if (deletedName.equals(personBase[i].getFio())) {
+                for (int j = i; j < personLenght - 1; j++) {
                     personBase[j] =  personBase[++j];
                     j--;
                 }
@@ -67,37 +63,41 @@ public class Base {
 
 
     /**
-     * the method implements adding items to the database
-     * @param person object to add
+     * the method implements adding items to the database.
+     * @param person object to add.
      */
-    public void addNewPerson(Person person) {
+    public final void addNewPerson(final Person person) {
 
         if (personBase.length == personLenght) {
-            Person[] newPersonBase = new Person[personBase.length+5];
+            Person[] newPersonBase = new Person[personBase.length + 5];
 
-            for(int i = 0; i < personBase.length; i++) {
-                newPersonBase[i] = personBase[i];
-            }
+            System.arraycopy(personBase,
+                    0,
+                    newPersonBase,
+                    0,
+                    personBase.length);
             personBase = newPersonBase;
         }
         if (personLenght == 0 || getPerson(person) == null) {
             Person tempPerson = new Person();
-            tempPerson.setValues(person.getFIO(), person.getBirthday(), person.getMonthOfBirth(), person.getYearOfBirthday());
+            tempPerson.setValues(person.getFio(),
+                    person.getGender(),
+                    person.getBirthday(),
+                    person.getMonthOfBirth(),
+                    person.getYearOfBirthday());
+
             personBase[personLenght] = tempPerson;
             personLenght++;
         } else {
-            System.out.println("Такой пользователь существует в базе данных");
+            System.out.println("Такой пользователь существует в базе");
         }
 
     }
 
-
-
-
     /**
-     * the method that displays the database
+     * the method that displays the database.
      */
-    public void showAllDatabase() {
+    public final void showAllDatabase() {
         for (Person item: personBase) {
             if (item != null) {
                 System.out.println(item);
