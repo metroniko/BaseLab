@@ -67,6 +67,7 @@ public class Main {
             base.getPersonbyFIO("Nikolay").getLifetime();
         } catch (NullPointerException e) {
             System.out.println("нет такого пользователя " + e);
+
         }
 
     }
