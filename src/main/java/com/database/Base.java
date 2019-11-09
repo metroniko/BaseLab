@@ -1,9 +1,12 @@
 package com.database;
 
+import java.util.Optional;
+
 /**
  * this class describes the database.
  */
 public class Base {
+
     /**.
      * a field that stores database items.
      */
@@ -19,28 +22,36 @@ public class Base {
      * @param requiredPerson the object to be removed from the database.
      * @return if the object is present, it returns it.
      */
-    private Person getPerson(final Person requiredPerson) {
+    private Optional<Person> getPerson(final Person requiredPerson) {
         for (int i = 0; i < personLenght; i++) {
             if (personBase[i].equals(requiredPerson)) {
-                return personBase[i];
+                return Optional.of(personBase[i]);
             }
         }
-        return null;
+        return Optional.empty();
     }
-
 
     /**
      * a method that retrieves an item from a database by user name.
      * @param requiredName name to be found.
      * @return if the object is present, it returns it.
      */
-    public final Person getPersonbyFIO(final String requiredName) {
+    public final Optional<Person> getPersonbyFIO(final String requiredName) {
         for (int i = 0; i < personLenght; i++) {
             if (requiredName.equals(personBase[i].getFio())) {
-                return personBase[i];
+                return Optional.of(personBase[i]);
             }
         }
-        return null;
+        return Optional.empty();
+    }
+
+    public final Optional<Person> getPersonByBirthday (final int year, final int month, final int day) {
+        for (int i = 0; i < personLenght; i++) {
+            if (year == personBase[i].getYearOfBirthday() && month == personBase[i].getMonthOfBirth() && day == personBase[i].getBirthday()) {
+                return Optional.of(personBase[i]);
+            }
+        }
+        return Optional.empty();
     }
 
     /**
@@ -78,7 +89,7 @@ public class Base {
                     personBase.length);
             personBase = newPersonBase;
         }
-        if (personLenght == 0 || getPerson(person) == null) {
+        if (personLenght == 0 || !getPerson(person).isPresent()) {
             Person tempPerson = new Person();
             tempPerson.setValues(person.getFio(),
                     person.getGender(),
@@ -103,6 +114,53 @@ public class Base {
                 System.out.println(item);
             }
         }
+    }
+    public void bubbleSortedByAge() {
+        bubbleSorter(new AgeComparator());
+    }
+    public void bubbleSortByFIO() {
+        bubbleSorter(new FioComparator());
+    }
+
+    private void bubbleSorter(Comprble comparator) {     //МЕТОД ПУЗЫРЬКОВОЙ СОРТИРОВКИ
+        for (int i = personLenght - 1; i >= 1; i--){  //Внешний цикл
+            for (int j = 0; j < i; j++){       //Внутренний цикл
+                if(comparator.compare(personBase[j], personBase[j +1]))   {
+                    Person tempPerson = personBase[j];
+                    personBase[j] = personBase[j + 1];
+                    personBase[j + 1] = tempPerson;
+                }            //Если порядок элементов нарушен
+
+            }
+        }
+    }
+    public void insertSorterByAge() {
+        insertSorter(new AgeComparator());
+    }
+    public void insertSorterByFio() {
+        insertSorter(new FioComparator());
+    }
+    private void insertSorter(Comprble comparator) {
+        for (int i = 1; i < personLenght; i++) {
+            Person current = personBase[i];
+            int j = i - 1;
+            while(j >= 0 && comparator.compare(personBase[j], current)) {
+                personBase[j+1] = personBase[j];
+                j--;
+            }
+            personBase[j+1] = current;
+        }
+    }
+
+    public Person[] getAllDatabase() {
+
+        Person[] returnedBase = new Person[personLenght];
+        System.arraycopy(personBase,
+                0,
+                returnedBase,
+                0,
+                personLenght);
+        return returnedBase;
     }
 
 

@@ -1,6 +1,7 @@
 package com.database;
 
 import org.joda.time.LocalDate;
+
 import java.util.Objects;
 
 /**
@@ -81,19 +82,21 @@ public class Person {
     /**
      * the method calculates the age of a person by the given field fields.
      */
-    public final void getLifetime() {
+    public final LocalDate getLifetime() {
 
-        LocalDate date = LocalDate.now().
+
+        return LocalDate.now().
                 minusYears(yearOfBirthday).
                 minusMonths(monthOfBirth).
                 minusDays(birthday);
 
-        System.out.println("years: "
-                + date.getYear()
-                + " months: "
-                + date.getMonthOfYear()
-                + " days: "
-                + date.getDayOfMonth());
+//            System.out.println("years: "
+//                    + date.getYear()
+//                    + " months: "
+//                    + date.getMonthOfYear()
+//                    + " days: "
+//                    + date.getDayOfMonth());
+
 
     }
 
@@ -123,7 +126,7 @@ public class Person {
         this.monthOfBirth = reqMonthOfBirth;
         this.yearOfBirthday = reqYearOfBirthday;
         this.gender = reqGender;
-        this.id = -1 * hashCode();
+        this.id = Math.abs(hashCode());
     }
 
     @Override
@@ -165,4 +168,5 @@ public class Person {
                 + id
                 + '}';
     }
+
 }
