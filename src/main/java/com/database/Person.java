@@ -118,7 +118,8 @@ public class Person implements IPerson {
     }
 
     /**
-     * the method calculates the age of a person by the given field fields.
+     * этот метод возвращает время жизни пользователя
+     * @return объект даты
      */
     public final LocalDate getLifetime() {
         return LocalDate.now().

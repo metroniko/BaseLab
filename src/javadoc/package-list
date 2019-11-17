@@ -1,1 +1,5 @@
 com.database
+com.database.interfaces.entities
+com.database.interfaces.entities.enums
+com.database.interfaces.repository
+com.database.sort
