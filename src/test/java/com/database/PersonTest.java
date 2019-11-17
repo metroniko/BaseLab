@@ -1,17 +1,28 @@
 package com.database;
 
+import com.database.interfaces.entities.enums.Gender;
 import org.junit.jupiter.api.Test;
-import org.joda.time.LocalDate;
+
+import java.math.BigDecimal;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 class PersonTest {
 
     @Test
-    void getLifetime() {
+    void getAge() {
+        Gender gender = Gender.MALE;
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy");
+        Division division = new Division();
+        division.setId(1);
+        division.setName("name");
         Person person = new Person();
-        person.setValues(("Dolya1"), "male", 12, 7, 2014);
-        LocalDate date = new LocalDate().minusDays(12).minusMonths(7).minusYears(2014);
-        assertEquals(date, person.getLifetime());
+        person.setValues("Kolya1","Murzinov",gender,  LocalDate.parse("06.06.1999", formatter), division, new BigDecimal(4200), 12);
+        assertEquals(20, person.getAge());
+
     }
+
+
 }

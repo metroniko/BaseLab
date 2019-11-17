@@ -48,42 +48,43 @@ public class Main {
 //            System.out.println(in.nextLine());
 //        }
 //
+//
 //        for (int i = 0; i < 16; i++) {
-//            person.setValues(("Kolya" + i), "male", 12, 7, 1999);
+//            person.setValues(("Kolya" + i), ("Murzinov" + i), "male", 12, 7, 1999);
 //            base.addNewPerson(person);
 //        }
 //
 //
-//        person.setValues(("Dolya1"), "male", 12, 7, 2014);
+//        person.setValues(("Dolya1"),"Durzinob1", "male", 12, 7, 2014);
 //        base.addNewPerson(person);
-//        person.setValues(("Aolya2"), "male", 12, 7, 2013);
+//        person.setValues(("Aolya2"),"Aurzinob1", "male", 12, 7, 2013);
 //        base.addNewPerson(person);
-//        person.setValues(("Lolya3"), "male", 12, 7, 2012);
+//        person.setValues(("Lolya3"),"Lurzinob1", "male", 12, 7, 2012);
 //        base.addNewPerson(person);
-//        person.setValues(("Zolya4"), "male", 12, 7, 2011);
+//        person.setValues(("Zolya4"),"Zurzinob1", "male", 12, 7, 2011);
 //        base.addNewPerson(person);
-//        person.setValues(("Golya5"), "male", 12, 6, 2012);
+//        person.setValues(("Golya5"),"Gurzinob1", "male", 12, 6, 2012);
 //        base.addNewPerson(person);
-//        person.setValues(("Nolya6"), "male", 12, 7, 2010);
+//        person.setValues(("Nolya6"),"Nurzinob1", "male", 12, 7, 2010);
 //        base.addNewPerson(person);
-//        person.setValues("Nikolay", "male", 6, 6, 1999);
+//        person.setValues("Nikolay","Murzinov", "male", 6, 6, 1999);
 //
 //        base.addNewPerson(person);
-//        base.deletePersonbyFIO("Kolya2");
+//        base.deletePersonbyFIO("Kolya2", "Murzinov2" );
 //
 //        base.showAllDatabase();
 //
 //        try {
-//            System.out.println(base.getPersonbyFIO("Nikolay").get().getLifetime());
+//            System.out.println(base.getPersonbyFIO("Nikolay","Murzinov").get().getLifetime());
 //        } catch (NullPointerException e) {
 //            System.out.println("нет такого пользователя " + e);
 //        }
-//        System.out.println(base.getPersonbyFIO("Nikolay").get());
+//        System.out.println(base.getPersonbyFIO("Nikolay","Murzinov").get());
 //
-//        base.insertSorterByAge();
+//        base.insertSorterByFio();
 //        System.out.println("///////////////////////////////////////////////////////////////////////////");
 //        base.showAllDatabase();
-//
-//
+
+
    }
 }
