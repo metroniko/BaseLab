@@ -14,7 +14,7 @@ import java.time.format.DateTimeFormatter;
 
 class CvsParser {
     static void parseBase(IRepository base) throws IOException {
-        CSVReader reader = new CSVReader(new FileReader(".\\src\\main\\java\\com\\database\\persons.csv"), ';' , '"' , 1);
+        CSVReader reader = new CSVReader(new FileReader("src\\main\\resourses\\persons.csv"), ';' , '"' , 1);
         String[] nextLine;
         while ((nextLine = reader.readNext()) != null) {
             int id;
@@ -25,7 +25,6 @@ class CvsParser {
             IDivision division;
             BigDecimal salary;
             DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy");
-            //Verifying the read data here
             id = Integer.parseInt(nextLine[0]);
             firstName = nextLine[1];
             lastName = nextLine[1];
@@ -34,14 +33,24 @@ class CvsParser {
             } else {
                 gender = Gender.FEMALE;
             }
+            division = checkArrayDivision(nextLine[4]);
             date = LocalDate.parse(nextLine[3], formatter);
-            division = new Division();
-            division.setId(id);
-            division.setName(nextLine[4]);
             salary = new BigDecimal(nextLine[5]);
             Person person = new Person();
             person.setValues(firstName, lastName, gender, date, division, salary, id);
             base.add(person);
         }
+    }
+    static private IDivision checkArrayDivision(String divisionName) {
+        for (IDivision currentDivision: Person.alldDivision) {
+            if(currentDivision.getName().equals(divisionName)) {
+                return currentDivision;
+            }
+        }
+        IDivision newDivision = new Division();
+        newDivision.setName(divisionName);
+        newDivision.setId(Person.alldDivision.size() + 1);
+        Person.alldDivision.add(newDivision);
+        return newDivision;
     }
 }

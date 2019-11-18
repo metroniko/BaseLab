@@ -45,7 +45,7 @@ public class Base implements IRepository  {
                     person.getDivision(),
                     person.getSalary(),
                     person.getId()
-);
+            );
 
             personBase[personLenght] = tempPerson;
             personLenght++;
@@ -194,7 +194,7 @@ public class Base implements IRepository  {
     /**
      * the method that displays the database.
      */
-    public final void showAllDatabase() {
+    final void showAllDatabase() {
         for (IPerson item: personBase) {
             if (item != null) {
                 System.out.println(item);

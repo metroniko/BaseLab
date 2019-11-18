@@ -9,7 +9,7 @@ class CvsParserTest {
 
     @Test
     void parseBase() throws IOException {
-        IRepository base = new Base();
+        Base base = new Base();
         CvsParser.parseBase(base);
     }
 }

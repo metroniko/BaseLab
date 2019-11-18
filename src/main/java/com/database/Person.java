@@ -6,6 +6,8 @@ import com.database.interfaces.entities.enums.Gender;
 import org.joda.time.LocalDate;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 /**
@@ -18,6 +20,7 @@ public class Person implements IPerson {
     private BigDecimal salary;
     private String lastName;
     private java.time.LocalDate birthdate;
+    static List<IDivision> alldDivision = new ArrayList<>();
 
     @Override
     public Integer getId() { return this.id; }
