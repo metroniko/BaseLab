@@ -1,9 +1,9 @@
 package com.database;
 
-import com.database.interfaces.entities.IDivision;
-import com.database.interfaces.entities.IPerson;
-import com.database.interfaces.entities.enums.Gender;
 import org.joda.time.LocalDate;
+import ru.vsu.lab.entities.IDivision;
+import ru.vsu.lab.entities.IPerson;
+import ru.vsu.lab.entities.enums.Gender;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
@@ -14,75 +14,94 @@ import java.util.Objects;
  * a class that stores parameters about a user.
  */
 public class Person implements IPerson {
-
+    /**
+     * подразделение.
+     */
     private IDivision division;
+    /**
+     * имя.
+     */
     private String firstName;
+    /**
+     * зарплата.
+     */
     private BigDecimal salary;
+    /**
+     * фамилия.
+     */
     private String lastName;
+    /**
+     * день рождения.
+     */
     private java.time.LocalDate birthdate;
-    static List<IDivision> alldDivision = new ArrayList<>();
+    /**
+     * массив подразделений.
+     */
+    static final List<IDivision> alldDivision = new ArrayList<>();
 
     @Override
-    public Integer getId() { return this.id; }
-
-    @Override
-    public void setId(Integer id) {
-        this.id = id;
+    public final Integer getId() {
+        return this.id;
     }
 
     @Override
-    public void setFirstName(String firstName) {
-        this.firstName = firstName;
+    public void setId(Integer idreq) {
+        this.id = idreq;
     }
 
     @Override
-    public void setLastName(String firstName) {
-        this.lastName = firstName;
+    public final void setFirstName(final String firstNamereq) {
+        this.firstName = firstNamereq;
     }
 
     @Override
-    public java.time.LocalDate getBirthdate() {
+    public final void setLastName(final String firstNameReq) {
+        this.lastName = firstNameReq;
+    }
+
+    @Override
+    public final java.time.LocalDate getBirthdate() {
         return this.birthdate;
     }
 
     @Override
-    public void setBirthdate(java.time.LocalDate birthdate) {
-        this.birthdate = birthdate;
+    public final void setBirthdate(final java.time.LocalDate birthdateReq) {
+        this.birthdate = birthdateReq;
     }
 
     @Override
-    public Integer getAge() {
+    public final Integer getAge() {
         return LocalDate.now().minusYears(birthdate.getYear()).getYear();
     }
 
     @Override
-    public Gender getGender() {
+    public final Gender getGender() {
         return this.gender;
     }
 
     @Override
-    public void setGender(Gender gender) {
-        this.gender = gender;
+    public final void setGender(final Gender genderReq) {
+        this.gender = genderReq;
     }
 
     @Override
-    public IDivision getDivision() {
+    public final IDivision getDivision() {
         return division;
     }
 
     @Override
-    public void setDivision(IDivision division) {
-        this.division = division;
+    final public void setDivision(final IDivision divisionReq) {
+        this.division = divisionReq;
     }
 
     @Override
-    public BigDecimal getSalary() {
+    public final BigDecimal getSalary() {
         return this.salary;
     }
 
     @Override
-    public void setSalary(BigDecimal salary) {
-        this.salary = salary;
+    public final void setSalary(final BigDecimal salaryReq) {
+        this.salary = salaryReq;
     }
 
     /**
@@ -90,7 +109,7 @@ public class Person implements IPerson {
      */
 
 
-    public String getLastName() {
+    public final String getLastName() {
         return lastName;
     }
 
@@ -133,58 +152,74 @@ public class Person implements IPerson {
 
 
     /**
-     * set values.
-     * @param reqfirstName first name
-     * @param reqLastName last Name
-     * @param reqGender gender
+     * метод для задачи значений
+     * @param reqfirstNameParam имя.
+     * @param reqLastNameParam фамилия.
+     * @param reqGenderParam пол.
+     * @param birthdateParam день ролждения.
+     * @param divisionParam отделение.
+     * @param salaryParam зарплaтa.
+     * @param idParam идентификатор.
      */
-    final void setValues(final String reqfirstName,
-                            final String reqLastName,
-                            final Gender reqGender,
-                            final java.time.LocalDate birthdate,
-                            final IDivision division,
-                            final BigDecimal salary,
-                            final Integer id
+    final void setValues(final String reqfirstNameParam,
+                            final String reqLastNameParam,
+                            final Gender reqGenderParam,
+                            final java.time.LocalDate birthdateParam,
+                            final IDivision divisionParam,
+                            final BigDecimal salaryParam,
+                            final Integer idParam
                                 ) {
-        this.firstName = reqfirstName;
-        this.lastName = reqLastName;
-        this.birthdate = birthdate;
-        this.division = division;
-        this.gender = reqGender;
-        this.salary = salary;
-        this.id = id;
+        this.firstName = reqfirstNameParam;
+        this.lastName = reqLastNameParam;
+        this.birthdate = birthdateParam;
+        this.division = divisionParam;
+        this.gender = reqGenderParam;
+        this.salary = salaryParam;
+        this.id = idParam;
 
     }
 
     @Override
-    public String toString() {
-        return "Person{" +
-                "division=" + division +
-                ", firstName='" + firstName + '\'' +
-                ", salary=" + salary +
-                ", lastName='" + lastName + '\'' +
-                ", birthdate=" + birthdate +
-                ", gender=" + gender +
-                ", id=" + id +
-                '}';
+    public final String toString() {
+        return "Person{"
+                + "division="
+                + division
+                + ", firstName='"
+                + firstName
+                + '\''
+                + ", salary="
+                + salary
+                + ", lastName='"
+                + lastName
+                + '\''
+                + ", birthdate="
+                + birthdate
+                + ", gender="
+                + gender
+                + ", id="
+                + id
+                + '}';
     }
 
     @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+    public final boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
         Person person = (Person) o;
-        return id == person.id &&
-                Objects.equals(division, person.division) &&
-                Objects.equals(firstName, person.firstName) &&
-                Objects.equals(salary, person.salary) &&
-                Objects.equals(lastName, person.lastName) &&
-                Objects.equals(birthdate, person.birthdate) &&
-                gender == person.gender;
+        return id == person.id
+                && Objects.equals(division, person.division)
+                && Objects.equals(firstName, person.firstName)
+                && Objects.equals(salary, person.salary)
+                && Objects.equals(lastName, person.lastName)
+                && Objects.equals(birthdate, person.birthdate)
+                && gender == person.gender;
     }
-
     @Override
-    public int hashCode() {
+    public final int hashCode() {
         return Objects.hash(
                 division,
                 firstName,

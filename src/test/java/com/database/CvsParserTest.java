@@ -1,7 +1,9 @@
 package com.database;
 
-import com.database.interfaces.repository.IRepository;
+
 import org.junit.jupiter.api.Test;
+import ru.vsu.lab.entities.IPerson;
+import ru.vsu.lab.repository.IRepository;
 
 import java.io.IOException;
 
@@ -9,7 +11,8 @@ class CvsParserTest {
 
     @Test
     void parseBase() throws IOException {
-        Base base = new Base();
+        Factory factory = new Factory();
+        IRepository<IPerson> base = factory.<IPerson>createRepository(IPerson.class);
         CvsParser.parseBase(base);
     }
 }

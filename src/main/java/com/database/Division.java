@@ -1,6 +1,6 @@
 package com.database;
 
-import com.database.interfaces.entities.IDivision;
+import ru.vsu.lab.entities.IDivision;
 
 import java.util.Objects;
 

@@ -1,7 +1,7 @@
 package com.database;
 
-import com.database.interfaces.entities.enums.Gender;
 import org.junit.jupiter.api.Test;
+import ru.vsu.lab.entities.enums.Gender;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;

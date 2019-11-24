@@ -1,8 +1,8 @@
 package com.database;
-
-import com.database.interfaces.entities.IPerson;
-import com.database.interfaces.repository.IRepository;
 import com.database.sort.*;
+import ru.vsu.lab.entities.IPerson;
+import ru.vsu.lab.repository.IPersonRepository;
+import ru.vsu.lab.repository.IRepository;
 
 import java.util.*;
 import java.util.function.Predicate;
@@ -10,9 +10,15 @@ import java.util.function.Predicate;
 /**
  * this class describes the database.
  */
-public class Base implements IRepository  {
-
-
+@SuppressWarnings("unchecked")
+public class Base<T> implements IRepository<IPerson>, IPersonRepository {
+    /**
+     * объект фабрики.
+     */
+    private final Factory factory = new Factory();
+    /**
+     * массив объектов.
+     */
     private IPerson[] personBase = new Person[10];
 
     /**.
@@ -21,13 +27,18 @@ public class Base implements IRepository  {
     private int personLenght = 0;
 
     /**
-     * метод добавления пользователя в массив пользователей
-     * @param person объект пользователя
+     * метод добавления пользователя в
+     * массив пользователей.
+     * @param person объект пользователя.
      */
     @Override
-    public void add(IPerson person) {
+    final public void add(final IPerson person) {
         if (personBase.length == personLenght) {
-            IPerson[] newPersonBase = new IPerson[personBase.length + (int)Math.ceil(1.5 * personBase.length)];
+            IPerson[] newPersonBase = new IPerson[
+                    personBase.length
+                    + (int)Math.ceil(1.5 * personBase.length)
+                    ];
+
 
             System.arraycopy(personBase,
                     0,
@@ -37,7 +48,7 @@ public class Base implements IRepository  {
             personBase = newPersonBase;
         }
         if (personLenght == 0 || !getPerson(person).isPresent()) {
-            Person tempPerson = new Person();
+            Person tempPerson = (Person) factory.createPerson();
             tempPerson.setValues(person.getFirstName(),
                     person.getLastName(),
                     person.getGender(),
@@ -54,21 +65,20 @@ public class Base implements IRepository  {
         }
     }
 
-
     /**
-     * по индексу возвращает пользователя из базы данных
-     * @param index индекс, под которым нкжно возвратить
-     * @return искомый пользователь
+     * по индексу возвращает пользователя из базы данных.
+     * @param index индекс, под которым нкжно возвратить.
+     * @return искомый пользователь.
      */
     @Override
-    public IPerson get(int index) {
+    public IPerson get(final int index) {
         return personBase[index];
     }
 
     /**
-     * удаляет пользователя по индексу
-     * @param index индекс, по которому мужно удалить пользователя
-     * @return возвращает удалённого пользователя
+     * удаляет пользователя по индексу.
+     * @param index индекс, по которому мужно удалить пользователя.
+     * @return возвращает удалённого пользователя.
      */
     @Override
     public IPerson delete(int index) {
@@ -83,11 +93,15 @@ public class Base implements IRepository  {
 
     }
 
+
+
     /**
-     * на задаваемый индекс вставляет нового пользователя
-     * @param index индекс, под которум будет вставлен пользователь
-     * @param person объект пользователя которого необходимо вставить
-     * @return вставленный пользователь
+     * на задаваемый индекс вставляет нового пользователя.
+     * @param index индекс, под которум будет вставлен
+     *              пользователь.
+     * @param person объект пользователя которого необходимо
+     *               вставить.
+     * @return вставленный пользователь.
      */
     @Override
     public IPerson set(int index, IPerson person) {
@@ -96,15 +110,17 @@ public class Base implements IRepository  {
     }
 
     /**
-     * метод добавления нового пользователя в базу данных
-     * @param index индекс под которым нужно добавить пользователя
-     * @param person объект пользователя, который необходимо добавить
+     * метод добавления нового пользователя в базу данных.
+     * @param index индекс под которым нужно добавить
+     *              пользователя.
+     * @param person объект пользователя, который необходимо
+     *               добавить.
      */
-
     @Override
     public void add(int index, IPerson person) {
         if (personBase.length == personLenght) {
-            IPerson[] newPersonBase = new Person[personBase.length + (int)Math.ceil(1.5 * personBase.length)];
+            IPerson[] newPersonBase = new Person[personBase.length
+                    + (int)Math.ceil(1.5 * personBase.length)];
 
             System.arraycopy(personBase,
                     0,
@@ -115,14 +131,18 @@ public class Base implements IRepository  {
         }
         //            j++;// возможна ошибка
         if (personLenght + 1 - index >= 0)
-            System.arraycopy(personBase, index, personBase, index + 1, personLenght + 1 - index);
+            System.arraycopy(personBase,
+                    index,
+                    personBase,
+                    index + 1,
+                    personLenght + 1 - index);
         personBase[index] = person;
         personLenght++;
     }
 
     /**
-     * преобразует массив в список List
-     * @return новый список
+     * преобразует массив в список List.
+     * @return новый список.
      */
     @Override
     public List<IPerson> toList() {
@@ -134,31 +154,29 @@ public class Base implements IRepository  {
                 personLenght);
         return Arrays.asList(returnedBase);
     }
-
     /**
-     * метод, который сортирует массив во определённому методу
-     * @param comparator содержит в себе метод, по которому сортируется массив
+     * метод, который сортирует массив во определённому
+     * методу.
+     * @param comparator содержит в себе метод, по которому
+     *                   сортируется массив.
      */
     @Override
-    public void sortBy(Comparator<IPerson> comparator) {
+    public void sortBy(final Comparator comparator) {
         BubbleSorter.sort(this.personBase, comparator);
     }
 
-    /**
-     * метод поиска по определённому критерию
-     * @param condition критерий ввиде придеката
-     * @return возбращает объект базы данных
-     */
     @Override
-    public IRepository searchBy(Predicate<IPerson> condition) {
+    public IRepository searchBy(final Predicate predicate) {
         for (IPerson p:
-             personBase) {
-            if (condition.test(p)) {
+                personBase) {
+            if (predicate.test(p)) {
                 return this;
             }
         }
         return null;
     }
+
+
     /**
      *  a method that retrieves an item from a database.
      * @param requiredPerson the object to be removed from the database.
@@ -173,23 +191,6 @@ public class Base implements IRepository  {
         return Optional.empty();
     }
 
-// --Commented out by Inspection START (16.11.2019 20:17):
-//    /**
-//     * a method that retrieves an item from a database by user name.
-//     * @param requiredFisrtName name to be found.
-//     * @param requiredlastName name to be found.
-//     * @return if the object is present, it returns it.
-//     */
-//    public final Optional<IPerson> getPersonbyFIO(final String requiredFisrtName, final String requiredlastName) {
-//        for (int i = 0; i < personLenght; i++) {
-//            if (requiredFisrtName.equals(personBase[i].getFirstName()) && requiredlastName.equals(personBase[i].getLastName())) {
-//                return Optional.of(personBase[i]);
-//            }
-//        }
-//        return Optional.empty();
-//    }
-// --Commented out by Inspection STOP (16.11.2019 20:17)
-
 
     /**
      * the method that displays the database.
@@ -201,18 +202,22 @@ public class Base implements IRepository  {
             }
         }
     }
-    void bubbleSortedByAge() { BubbleSorter.sort(personBase, new AgeComparator()); }
-    void bubbleSortByFIO() { BubbleSorter.sort(personBase, new NameComparator()); }
-    void insertSorterByAge() { InsertSorter.sort(personBase,new AgeComparator()); }
-    void insertSorterByFio() {
-        InsertSorter.sort(personBase,new NameComparator());
+    final void bubbleSortedByAge() { BubbleSorter.sort(personBase,
+            new AgeComparator()); }
+    final void bubbleSortByFIO() { BubbleSorter.sort(personBase,
+            new NameComparator()); }
+    final void insertSorterByAge() { InsertSorter.sort(personBase,
+            new AgeComparator()); }
+    final void insertSorterByFio() {
+        InsertSorter.sort(personBase,
+            new NameComparator());
     }
 
     /**
-     * возвращает массив данных без null элементов
-     * @return массив данных без null элементов
+     * возвращает массив данных без null элементов.
+     * @return массив данных без null элементов.
      */
-    IPerson[] getAllDatabase() {
+    final IPerson[] getAllDatabase() {
 
         IPerson[] returnedBase = new Person[personLenght];
         System.arraycopy(personBase,

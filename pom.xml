@@ -80,6 +80,11 @@
             <scope>test</scope>
         </dependency>
         <dependency>
+            <groupId>ru.vsu</groupId>
+            <artifactId>task1</artifactId>
+            <version>0.0.1-SNAPSHOT</version>
+        </dependency>
+        <dependency>
             <groupId>net.sf.opencsv</groupId>
             <artifactId>opencsv</artifactId>
             <version>2.3</version>

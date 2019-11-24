@@ -1,9 +1,10 @@
 package com.database;
 
 import au.com.bytecode.opencsv.CSVReader;
-import com.database.interfaces.entities.IDivision;
-import com.database.interfaces.entities.enums.Gender;
-import com.database.interfaces.repository.IRepository;
+import ru.vsu.lab.entities.IDivision;
+import ru.vsu.lab.entities.IPerson;
+import ru.vsu.lab.entities.enums.Gender;
+import ru.vsu.lab.repository.IRepository;
 
 import java.io.FileReader;
 import java.io.IOException;
@@ -11,10 +12,25 @@ import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
-
+/**
+ * класс для парсинга файла в объект
+ */
 class CvsParser {
-    static void parseBase(IRepository base) throws IOException {
-        CSVReader reader = new CSVReader(new FileReader("src\\main\\resourses\\persons.csv"), ';' , '"' , 1);
+    private static final Factory factory = new Factory();
+
+    /**
+     * класс парсит базу данных из csv файла
+     * @param base объект базы, в которую нужно спарсить
+     * @throws IOException
+     */
+    static void parseBase(final IRepository<IPerson> base) throws IOException {
+        final CSVReader reader = new CSVReader(new
+                FileReader(
+                "src\\main\\resources\\persons.csv"),
+                ';'
+                ,'"' ,
+                1);
+
         String[] nextLine;
         while ((nextLine = reader.readNext()) != null) {
             int id;
@@ -36,18 +52,24 @@ class CvsParser {
             division = checkArrayDivision(nextLine[4]);
             date = LocalDate.parse(nextLine[3], formatter);
             salary = new BigDecimal(nextLine[5]);
-            Person person = new Person();
-            person.setValues(firstName, lastName, gender, date, division, salary, id);
+            IPerson person =  factory.createPerson();
+            ((Person)person).setValues(firstName, lastName, gender, date, division, salary, id);
             base.add(person);
         }
     }
+
+    /**
+     * метод для проверки повторяюшихся депортпаментов
+     * @param divisionName имя депортамента
+     * @return объект депортамента
+     */
     static private IDivision checkArrayDivision(String divisionName) {
         for (IDivision currentDivision: Person.alldDivision) {
             if(currentDivision.getName().equals(divisionName)) {
                 return currentDivision;
             }
         }
-        IDivision newDivision = new Division();
+        IDivision newDivision = factory.createDivision() ;
         newDivision.setName(divisionName);
         newDivision.setId(Person.alldDivision.size() + 1);
         Person.alldDivision.add(newDivision);

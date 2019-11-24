@@ -1,10 +1,11 @@
 package com.database;
 
-import com.database.interfaces.entities.IPerson;
-import com.database.interfaces.entities.enums.Gender;
-import com.database.interfaces.repository.IRepository;
+
 import com.database.sort.AgeComparator;
 import org.junit.jupiter.api.Test;
+import ru.vsu.lab.entities.IPerson;
+import ru.vsu.lab.entities.enums.Gender;
+import ru.vsu.lab.repository.IRepository;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
@@ -17,16 +18,17 @@ import java.util.function.Predicate;
 import static org.junit.jupiter.api.Assertions.*;
 
 class BaseTest {
+    private final Factory factory = new Factory();
+    private final IRepository<IPerson> base = factory.createRepository(IPerson.class);
+    private final IPerson[] expectedBase;
+    private final IPerson[] ageBase;
+    private final IPerson[] nameBase;
 
-    private final Base base = new Base();
-    private final Person[] expectedBase;
-    private final Person[] ageBase;
-    private final Person[] nameBase;
 
 
     BaseTest() {
         Gender gender = Gender.MALE;
-        Person person = new Person();
+        Person person = (Person) factory.createPerson();
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy");
         LocalDate date = LocalDate.parse("15.05.1970", formatter);
         Division division = new Division();
@@ -70,7 +72,7 @@ class BaseTest {
 
     @Test
     void add() {
-        IPerson[] actualBase = base.getAllDatabase();
+        IPerson[] actualBase = ((Base)base).getAllDatabase();
         assertArrayEquals(actualBase, expectedBase);
     }
 
@@ -106,7 +108,7 @@ class BaseTest {
         Person person6 = new Person();
         person6.setValues("Kolya6","Kurzinov",gender,  LocalDate.parse("13.05.1979", formatter), division, new BigDecimal(4200), 12);
         IPerson[] personBases = new IPerson[] {person2, person3, person4, person5, person6};
-        IPerson[] newbase = base.getAllDatabase();
+        IPerson[] newbase = ((Base)base).getAllDatabase();
         assertArrayEquals(personBases, newbase);
     }
 
@@ -135,7 +137,7 @@ class BaseTest {
     void sortBy() {
         Comparator<IPerson> comparator = new AgeComparator();
         base.sortBy(comparator);
-        assertArrayEquals(ageBase, base.getAllDatabase());
+        assertArrayEquals(ageBase, ((Base)base).getAllDatabase());
     }
     @Test
     void searchBy() {
@@ -147,29 +149,29 @@ class BaseTest {
 
     @Test
     void bubbleSortedByAge() {
-        base.bubbleSortedByAge();
-        IPerson[] requiredBase = base.getAllDatabase();
+        ((Base)base).bubbleSortedByAge();
+        IPerson[] requiredBase = ((Base)base).getAllDatabase();
         assertArrayEquals(requiredBase, ageBase);
     }
 
     @Test
     void bubbleSortByFIO() {
-        base.bubbleSortByFIO();
-        IPerson[] requiredBase = base.getAllDatabase();
+        ((Base)base).bubbleSortByFIO();
+        IPerson[] requiredBase = ((Base)base).getAllDatabase();
         assertArrayEquals(requiredBase, nameBase);
     }
 
     @Test
     void insertSorterByAge() {
-        base.insertSorterByAge();
-        IPerson[] requiredBase = base.getAllDatabase();
+        ((Base)base).insertSorterByAge();
+        IPerson[] requiredBase = ((Base)base).getAllDatabase();
         assertArrayEquals(requiredBase, ageBase);
     }
 
     @Test
     void insertSorterByFio() {
-        base.insertSorterByFio();
-        IPerson[] requiredPerson = base.getAllDatabase();
+        ((Base)base).insertSorterByFio();
+        IPerson[] requiredPerson = ((Base)base).getAllDatabase();
         assertArrayEquals(requiredPerson, nameBase);
     }
 
