@@ -1,4 +1,4 @@
-package com.database;
+package com.database.base;
 
 import org.junit.jupiter.api.Test;
 import ru.vsu.lab.entities.enums.Gender;

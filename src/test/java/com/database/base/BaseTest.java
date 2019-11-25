@@ -1,6 +1,7 @@
-package com.database;
+package com.database.base;
 
 
+import com.database.base.Factory;
 import com.database.sort.AgeComparator;
 import org.junit.jupiter.api.Test;
 import ru.vsu.lab.entities.IPerson;
@@ -19,7 +20,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class BaseTest {
     private final Factory factory = new Factory();
-    private final IRepository<IPerson> base = factory.createRepository(IPerson.class);
+    private final IRepository base = factory.createRepository(Person.class);
     private final IPerson[] expectedBase;
     private final IPerson[] ageBase;
     private final IPerson[] nameBase;
@@ -72,7 +73,7 @@ class BaseTest {
 
     @Test
     void add() {
-        IPerson[] actualBase = ((Base)base).getAllDatabase();
+        IPerson[] actualBase = (IPerson[]) ((Base)base).getAllDatabase();
         assertArrayEquals(actualBase, expectedBase);
     }
 
@@ -80,7 +81,7 @@ class BaseTest {
     void get() {
         Gender gender = Gender.MALE;
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy");
-        IPerson person = base.get(0);
+        IPerson person = (IPerson) base.get(0);
         Person person1 = new Person();
         Division division = new Division();
         division.setId(1);
@@ -108,7 +109,7 @@ class BaseTest {
         Person person6 = new Person();
         person6.setValues("Kolya6","Kurzinov",gender,  LocalDate.parse("13.05.1979", formatter), division, new BigDecimal(4200), 12);
         IPerson[] personBases = new IPerson[] {person2, person3, person4, person5, person6};
-        IPerson[] newbase = ((Base)base).getAllDatabase();
+        IPerson[] newbase = (IPerson[]) ((Base)base).getAllDatabase();
         assertArrayEquals(personBases, newbase);
     }
 
@@ -129,7 +130,7 @@ class BaseTest {
 
     @Test
     void toList() {
-        List<IPerson> iPersonList = base.toList();
+        List<Person> iPersonList = base.toList();
         assertEquals(iPersonList, Arrays.asList(expectedBase));
     }
 
@@ -142,7 +143,6 @@ class BaseTest {
     @Test
     void searchBy() {
         Predicate<IPerson> personSearch = p -> p.getBirthdate().getYear() > 1974;
-
         IRepository newBase =  base.searchBy(personSearch);
         assertEquals(newBase, base);
     }
@@ -150,28 +150,28 @@ class BaseTest {
     @Test
     void bubbleSortedByAge() {
         ((Base)base).bubbleSortedByAge();
-        IPerson[] requiredBase = ((Base)base).getAllDatabase();
+        IPerson[] requiredBase = (IPerson[]) ((Base)base).getAllDatabase();
         assertArrayEquals(requiredBase, ageBase);
     }
 
     @Test
     void bubbleSortByFIO() {
         ((Base)base).bubbleSortByFIO();
-        IPerson[] requiredBase = ((Base)base).getAllDatabase();
+        IPerson[] requiredBase = (IPerson[]) ((Base)base).getAllDatabase();
         assertArrayEquals(requiredBase, nameBase);
     }
 
     @Test
     void insertSorterByAge() {
         ((Base)base).insertSorterByAge();
-        IPerson[] requiredBase = ((Base)base).getAllDatabase();
+        IPerson[] requiredBase = (IPerson[]) ((Base)base).getAllDatabase();
         assertArrayEquals(requiredBase, ageBase);
     }
 
     @Test
     void insertSorterByFio() {
         ((Base)base).insertSorterByFio();
-        IPerson[] requiredPerson = ((Base)base).getAllDatabase();
+        IPerson[] requiredPerson = (IPerson[]) ((Base)base).getAllDatabase();
         assertArrayEquals(requiredPerson, nameBase);
     }
 

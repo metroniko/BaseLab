@@ -1,4 +1,4 @@
-package com.database;
+package com.database.base;
 
 import org.joda.time.LocalDate;
 import ru.vsu.lab.entities.IDivision;

@@ -2,6 +2,7 @@ package com.database.sort;
 
 
 import ru.vsu.lab.entities.IPerson;
+import ru.vsu.lab.repository.IRepository;
 
 import java.util.Comparator;
 
@@ -15,18 +16,18 @@ public class BubbleSorter {
      *                   отсортировать.
      * @param comparator компаратоп.
      */
-    public static void sort(final IPerson[] personBase,
+    public static void sort(final IRepository personBase,
                             final Comparator<IPerson> comparator) {
         int personLenght = 0;
-        for (IPerson iPerson : personBase) {
+        for (Object iPerson : personBase.toList()) {
             if (iPerson != null) {
                 personLenght++;
             }
         }
         for (int i = personLenght - 1; i >= 1; i--) {
             for (int j = 0; j < i; j++) {
-                if ((comparator.compare(personBase[j],
-                        personBase[j + 1])) > 0) {
+                if ((comparator.compare(personBase.toList().get(j),
+                        personBase.toList().get(j + 1))) > 0) {
                     IPerson tempPerson = personBase[j];
                     personBase[j] = personBase[j + 1];
                     personBase[j + 1] = tempPerson;

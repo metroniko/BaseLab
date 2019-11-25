@@ -1,4 +1,4 @@
-package com.database;
+package com.database.base;
 
 import au.com.bytecode.opencsv.CSVReader;
 import ru.vsu.lab.entities.IDivision;

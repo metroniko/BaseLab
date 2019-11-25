@@ -1,6 +1,8 @@
-package com.database;
+package com.database.base;
 
 
+import com.database.base.CvsParser;
+import com.database.base.Factory;
 import org.junit.jupiter.api.Test;
 import ru.vsu.lab.entities.IPerson;
 import ru.vsu.lab.repository.IRepository;
