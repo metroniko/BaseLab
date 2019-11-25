@@ -1,4 +1,4 @@
-package com.database.base;
+package com.database;
 
 import ru.vsu.lab.entities.IDivision;
 import ru.vsu.lab.entities.IPerson;
@@ -20,12 +20,12 @@ class Factory implements ILabFactory {
 
     @Override
     public <T> IRepository<T> createRepository(Class<T> clazz) {
-        return new Base<T>();
+        return (IRepository) new Base();
 
     }
 
     @Override
     public IPersonRepository createPersonRepository() {
-        return null;
+        return new Base();
     }
 }
