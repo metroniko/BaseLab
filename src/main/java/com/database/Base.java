@@ -11,7 +11,7 @@ import java.util.function.Predicate;
  * this class describes the database.
  */
 @SuppressWarnings("unchecked")
-public class Base<T> implements IRepository<IPerson>, IPersonRepository {
+public class Base<T extends Person> implements  IRepository<T> {
     /**
      * объект фабрики.
      */
@@ -19,7 +19,7 @@ public class Base<T> implements IRepository<IPerson>, IPersonRepository {
     /**
      * массив объектов.
      */
-    private IPerson[] personBase = new Person[10];
+    private T[] personBase = (T[]) new Person[10];
 
     /**.
      * number of items in the database.
@@ -32,9 +32,9 @@ public class Base<T> implements IRepository<IPerson>, IPersonRepository {
      * @param person объект пользователя.
      */
     @Override
-    final public void add(final IPerson person) {
+    final public void add(final T person) {
         if (personBase.length == personLenght) {
-            IPerson[] newPersonBase = new IPerson[
+            T[] newPersonBase = (T[]) new Person[
                     personBase.length
                     + (int)Math.ceil(1.5 * personBase.length)
                     ];
@@ -48,8 +48,8 @@ public class Base<T> implements IRepository<IPerson>, IPersonRepository {
             personBase = newPersonBase;
         }
         if (personLenght == 0 || !getPerson(person).isPresent()) {
-            Person tempPerson = (Person) factory.createPerson();
-            tempPerson.setValues(person.getFirstName(),
+            T tempPerson = (T) factory.createPerson();
+            ((Person)tempPerson).setValues(person.getFirstName(),
                     person.getLastName(),
                     person.getGender(),
                     person.getBirthdate(),
@@ -65,13 +65,15 @@ public class Base<T> implements IRepository<IPerson>, IPersonRepository {
         }
     }
 
+
+
     /**
      * по индексу возвращает пользователя из базы данных.
      * @param index индекс, под которым нкжно возвратить.
      * @return искомый пользователь.
      */
     @Override
-    public IPerson get(final int index) {
+    public T get(final int index) {
         return personBase[index];
     }
 
@@ -81,8 +83,8 @@ public class Base<T> implements IRepository<IPerson>, IPersonRepository {
      * @return возвращает удалённого пользователя.
      */
     @Override
-    public IPerson delete(int index) {
-        IPerson tempPerson = personBase[index];
+    public T delete(int index) {
+        T tempPerson = personBase[index];
         for (int j = index; j < personLenght - 1; j++) {
             personBase[j] =  personBase[++j];
             j--;
@@ -95,6 +97,7 @@ public class Base<T> implements IRepository<IPerson>, IPersonRepository {
 
 
 
+
     /**
      * на задаваемый индекс вставляет нового пользователя.
      * @param index индекс, под которум будет вставлен
@@ -104,8 +107,8 @@ public class Base<T> implements IRepository<IPerson>, IPersonRepository {
      * @return вставленный пользователь.
      */
     @Override
-    public IPerson set(int index, IPerson person) {
-        personBase[index] = person;
+    public T set(int index, T person) {
+        personBase[index] = (T)person;
         return personBase[index];
     }
 
@@ -117,9 +120,9 @@ public class Base<T> implements IRepository<IPerson>, IPersonRepository {
      *               добавить.
      */
     @Override
-    public void add(int index, IPerson person) {
+    public void add(int index, T person) {
         if (personBase.length == personLenght) {
-            IPerson[] newPersonBase = new Person[personBase.length
+            T[] newPersonBase = (T[]) new Person[personBase.length
                     + (int)Math.ceil(1.5 * personBase.length)];
 
             System.arraycopy(personBase,
@@ -136,7 +139,7 @@ public class Base<T> implements IRepository<IPerson>, IPersonRepository {
                     personBase,
                     index + 1,
                     personLenght + 1 - index);
-        personBase[index] = person;
+        personBase[index] =  person;
         personLenght++;
     }
 
@@ -145,8 +148,8 @@ public class Base<T> implements IRepository<IPerson>, IPersonRepository {
      * @return новый список.
      */
     @Override
-    public List<IPerson> toList() {
-        IPerson[] returnedBase = new Person[personLenght];
+    public List<T> toList() {
+        T[] returnedBase = (T[]) new Person[personLenght];
         System.arraycopy(personBase,
                 0,
                 returnedBase,
@@ -162,12 +165,12 @@ public class Base<T> implements IRepository<IPerson>, IPersonRepository {
      */
     @Override
     public void sortBy(final Comparator comparator) {
-        BubbleSorter.sort(this.personBase, comparator);
+        BubbleSorter.sort( this.personBase, comparator);
     }
 
     @Override
     public IRepository searchBy(final Predicate predicate) {
-        for (IPerson p:
+        for (T p:
                 personBase) {
             if (predicate.test(p)) {
                 return this;
@@ -182,7 +185,7 @@ public class Base<T> implements IRepository<IPerson>, IPersonRepository {
      * @param requiredPerson the object to be removed from the database.
      * @return if the object is present, it returns it.
      */
-    private Optional<IPerson> getPerson(final IPerson requiredPerson) {
+    private Optional<T> getPerson(final IPerson requiredPerson) {
         for (int i = 0; i < personLenght; i++) {
             if (personBase[i].equals(requiredPerson)) {
                 return Optional.of(personBase[i]);
@@ -196,15 +199,15 @@ public class Base<T> implements IRepository<IPerson>, IPersonRepository {
      * the method that displays the database.
      */
     final void showAllDatabase() {
-        for (IPerson item: personBase) {
+        for (T item: personBase) {
             if (item != null) {
                 System.out.println(item);
             }
         }
     }
-    final void bubbleSortedByAge() { BubbleSorter.sort(personBase,
+    final void bubbleSortedByAge() { BubbleSorter.sort( personBase,
             new AgeComparator()); }
-    final void bubbleSortByFIO() { BubbleSorter.sort(personBase,
+    final void bubbleSortByFIO() { BubbleSorter.sort( personBase,
             new NameComparator()); }
     final void insertSorterByAge() { InsertSorter.sort(personBase,
             new AgeComparator()); }
@@ -217,9 +220,9 @@ public class Base<T> implements IRepository<IPerson>, IPersonRepository {
      * возвращает массив данных без null элементов.
      * @return массив данных без null элементов.
      */
-    final IPerson[] getAllDatabase() {
+    final T[] getAllDatabase() {
 
-        IPerson[] returnedBase = new Person[personLenght];
+        T[] returnedBase = (T[]) new Person[personLenght];
         System.arraycopy(personBase,
                 0,
                 returnedBase,

@@ -19,7 +19,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class BaseTest {
     private final Factory factory = new Factory();
-    private final IRepository<IPerson> base = factory.createRepository(IPerson.class);
+    private final Base<Person> base = (Base<Person>) factory.<Person>createRepository(Person.class);
     private final IPerson[] expectedBase;
     private final IPerson[] ageBase;
     private final IPerson[] nameBase;
@@ -72,7 +72,7 @@ class BaseTest {
 
     @Test
     void add() {
-        IPerson[] actualBase = ((Base)base).getAllDatabase();
+        IPerson[] actualBase = base.getAllDatabase();
         assertArrayEquals(actualBase, expectedBase);
     }
 
@@ -129,7 +129,7 @@ class BaseTest {
 
     @Test
     void toList() {
-        List<IPerson> iPersonList = base.toList();
+        List<Person> iPersonList = base.toList();
         assertEquals(iPersonList, Arrays.asList(expectedBase));
     }
 
@@ -137,7 +137,7 @@ class BaseTest {
     void sortBy() {
         Comparator<IPerson> comparator = new AgeComparator();
         base.sortBy(comparator);
-        assertArrayEquals(ageBase, ((Base)base).getAllDatabase());
+        assertArrayEquals(ageBase, base.getAllDatabase());
     }
     @Test
     void searchBy() {
@@ -150,28 +150,28 @@ class BaseTest {
     @Test
     void bubbleSortedByAge() {
         ((Base)base).bubbleSortedByAge();
-        IPerson[] requiredBase = ((Base)base).getAllDatabase();
+        IPerson[] requiredBase = base.getAllDatabase();
         assertArrayEquals(requiredBase, ageBase);
     }
 
     @Test
     void bubbleSortByFIO() {
-        ((Base)base).bubbleSortByFIO();
-        IPerson[] requiredBase = ((Base)base).getAllDatabase();
+        base.bubbleSortByFIO();
+        IPerson[] requiredBase = base.getAllDatabase();
         assertArrayEquals(requiredBase, nameBase);
     }
 
     @Test
     void insertSorterByAge() {
-        ((Base)base).insertSorterByAge();
-        IPerson[] requiredBase = ((Base)base).getAllDatabase();
+        base.insertSorterByAge();
+        IPerson[] requiredBase = base.getAllDatabase();
         assertArrayEquals(requiredBase, ageBase);
     }
 
     @Test
     void insertSorterByFio() {
-        ((Base)base).insertSorterByFio();
-        IPerson[] requiredPerson = ((Base)base).getAllDatabase();
+        base.insertSorterByFio();
+        IPerson[] requiredPerson = base.getAllDatabase();
         assertArrayEquals(requiredPerson, nameBase);
     }
 
