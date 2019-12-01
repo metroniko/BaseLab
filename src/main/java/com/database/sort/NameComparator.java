@@ -5,7 +5,8 @@ import ru.vsu.lab.entities.IPerson;
 import java.util.Comparator;
 
 /**
- * компаратор по имени.
+ * компоратор по имени.
+ * @param <T> параметр типизации.
  */
 public class NameComparator<T> implements Comparator<T> {
     /**
@@ -14,12 +15,19 @@ public class NameComparator<T> implements Comparator<T> {
      * @param o2 2 сравниваемый параметр.
      * @return 0 или 1
      */
+
     @Override
     public int compare(final T o1, final T o2) {
-        if (((IPerson) o1).getLastName().compareTo(((IPerson) o2).getLastName()) > 0) {
+        if (((IPerson) o1).getLastName()
+                .compareTo(((IPerson) o2)
+                        .getLastName()) > 0) {
             return 1;
-        } else if (((IPerson) o1).getLastName().compareTo(((IPerson) o2).getLastName()) == 0) {
-            if (((IPerson) o1).getFirstName().compareTo(((IPerson) o2).getFirstName()) > 0) {
+        } else if (((IPerson) o1).getLastName()
+                .compareTo(((IPerson) o2)
+                        .getLastName()) == 0) {
+            if (((IPerson) o1).getFirstName()
+                    .compareTo(((IPerson) o2)
+                            .getFirstName()) > 0) {
                 return 0;
             }
         }

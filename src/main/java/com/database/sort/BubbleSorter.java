@@ -1,7 +1,6 @@
 package com.database.sort;
 
 
-import ru.vsu.lab.entities.IPerson;
 import ru.vsu.lab.repository.IRepository;
 
 import java.util.Comparator;
@@ -9,28 +8,29 @@ import java.util.Comparator;
 /**
  * пузырьковая сортировка.
  */
-public class BubbleSorter {
+public class BubbleSorter<T> implements ISorted<T> {
     /**
      * метод сортировки пузырьком.
-     * @param personBase базаданных, которую необходимо
+     * @param repository базаданных, которую необходимо
      *                   отсортировать.
      * @param comparator компаратоп.
      */
-    public static void sort(final IRepository personBase,
-                            final Comparator<IPerson> comparator) {
+    @Override
+    public void sort(final IRepository<T> repository,
+                     final Comparator<T> comparator) {
         int personLenght = 0;
-        for (Object iPerson : personBase.toList()) {
+        for (Object iPerson : repository.toList()) {
             if (iPerson != null) {
                 personLenght++;
             }
         }
         for (int i = personLenght - 1; i >= 1; i--) {
             for (int j = 0; j < i; j++) {
-                if ((comparator.compare(personBase.toList().get(j),
-                        personBase.toList().get(j + 1))) > 0) {
-                    IPerson tempPerson = personBase[j];
-                    personBase[j] = personBase[j + 1];
-                    personBase[j + 1] = tempPerson;
+                if ((comparator.compare(repository.get(j),
+                        repository.get(j + 1))) > 0) {
+                    T tempPerson = repository.get(j);
+                    repository.set(j, repository.get(j + 1));
+                    repository.set(j + 1, tempPerson);
                 }
 
             }

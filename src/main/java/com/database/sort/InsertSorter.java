@@ -1,33 +1,35 @@
 package com.database.sort;
 
-import ru.vsu.lab.entities.IPerson;
+import ru.vsu.lab.repository.IRepository;
 
 import java.util.Comparator;
 
 /**
  * сортировка вставками.
  */
-public class InsertSorter {
+public class InsertSorter<T> implements ISorted<T> {
     /**
      * метод для сортировки вставками.
-     * @param personBase база данных пользователя.
+     * @param repository база данных пользователя.
      * @param comparator объект компаратор.
      */
-    public static void sort(final IPerson[] personBase, final Comparator<IPerson> comparator) {
-        int personLenght = 0;
-        for (IPerson iPerson : personBase) {
+    @Override
+    public void sort(final IRepository<T> repository,
+                     final Comparator<T> comparator) {
+        int personLength = 0;
+        for (T iPerson : repository.toList()) {
             if (iPerson != null) {
-                ++personLenght;
+                ++personLength;
             }
         }
-        for (int i = 1; i < personLenght; i++) {
-            IPerson current = personBase[i];
+        for (int i = 1; i < personLength; i++) {
+            T current = repository.get(i);
             int j = i - 1;
-            while(j >= 0 && comparator.compare(personBase[j], current) > 0) {
-                personBase[j + 1] = personBase[j];
+            while(j >= 0 && comparator.compare(repository.get(j), current) > 0) {
+                repository.set(j + 1, repository.get(j));
                 j--;
             }
-            personBase[j + 1] = current;
+            repository.set(j + 1, current);
         }
     }
 }

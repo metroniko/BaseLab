@@ -14,7 +14,7 @@ class CvsParserTest {
     @Test
     void parseBase() throws IOException {
         Factory factory = new Factory();
-        IRepository<IPerson> base = factory.<IPerson>createRepository(IPerson.class);
+        IRepository<IPerson> base = factory.createRepository(IPerson.class);
         CvsParser.parseBase(base);
     }
 }

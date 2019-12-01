@@ -6,6 +6,4 @@ package com.database;
  */
 public class Main {
 
-    //    private static int endWord;
-
 }

@@ -21,9 +21,10 @@ class CvsParser {
     /**
      * класс парсит базу данных из csv файла
      * @param base объект базы, в которую нужно спарсить
-     * @throws IOException
+     * @throws IOException при невозможнот найти файл
      */
     static void parseBase(final IRepository<IPerson> base) throws IOException {
+
         final CSVReader reader = new CSVReader(new
                 FileReader(
                 "src\\main\\resources\\persons.csv"),
