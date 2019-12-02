@@ -3,6 +3,7 @@ package com.database.base;
 import com.database.sort.BubbleSorter;
 import com.database.sort.ISorted;
 import reflection.Injector;
+import reflection.InjectorExeption;
 import reflection.LabInject;
 import ru.vsu.lab.entities.IPerson;
 import ru.vsu.lab.repository.IRepository;
@@ -183,7 +184,7 @@ public class Base<T> implements IRepository<T> {
     public void sortBy(final Comparator comparator) {
         try {
             Injector.inject(this);
-        } catch (IOException e) {
+        } catch ( InjectorExeption e) {
             sorter = new BubbleSorter<>();
             e.printStackTrace();
         }

@@ -4,6 +4,7 @@ package com.database.base;
 import com.database.sort.AgeComparator;
 import org.junit.jupiter.api.Test;
 import reflection.Injector;
+import reflection.InjectorExeption;
 import ru.vsu.lab.entities.IPerson;
 import ru.vsu.lab.entities.enums.Gender;
 import ru.vsu.lab.repository.IRepository;
@@ -132,7 +133,7 @@ import static org.junit.jupiter.api.Assertions.*;
     }
 
     @Test
-    void sortBy() throws IOException {
+    void sortBy() throws  InjectorExeption {
         AgeComparator<IPerson> comparator = new AgeComparator<>();
         Injector.inject(base);
         base.sortBy(comparator);

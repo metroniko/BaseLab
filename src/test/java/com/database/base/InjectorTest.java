@@ -6,6 +6,7 @@ import com.database.base.Factory;
 import com.database.base.Person;
 import org.junit.jupiter.api.Test;
 import reflection.Injector;
+import reflection.InjectorExeption;
 import ru.vsu.lab.entities.IPerson;
 import ru.vsu.lab.entities.enums.Gender;
 import ru.vsu.lab.repository.IRepository;
@@ -22,7 +23,7 @@ class InjectorTest {
 
 
     @Test
-    void inject() throws IOException {
+    void inject() throws  InjectorExeption {
         Gender gender = Gender.MALE;
         Person person = (Person) factory.createPerson();
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy");

@@ -20,12 +20,17 @@ public class Injector<T> {
      * @param <T> параметр типизации.
      * @throws IOException ошибка при необнаружении файла .properties.
      */
-    public static <T> void inject(IRepository<T> rep) throws IOException {
+    public static <T> T inject(T rep) throws InjectorExeption {
         String propsPath = "src\\main\\resources\\props.properties";
         Class<?> clazz =  rep.getClass();
         Field[] fields = clazz.getDeclaredFields();
         Properties props = new Properties();
-        props.load(new FileInputStream(propsPath));
+        try {
+            props.load(new FileInputStream(propsPath));
+        } catch (IOException e) {
+            throw new InjectorExeption(e);
+        }
+
         for (Field field: fields) {
             System.out.println(field.getClass().getName());
             if (field.isAnnotationPresent(LabInject.class)) {
@@ -39,12 +44,19 @@ public class Injector<T> {
                     Object seatedClassObject = seatedClass.newInstance();
                     field.setAccessible(true);
                     field.set(rep, seatedClassObject);
-                } catch (IllegalAccessException |
-                        ClassNotFoundException |
-                        InstantiationException e) {
-                    e.printStackTrace();
+
+                } catch(IllegalAccessException e ) {
+                   throw new InjectorExeption(e);
+                } catch (ClassNotFoundException e) {
+                   throw  new InjectorExeption(e);
+                } catch(InstantiationException e) {
+                    throw new InjectorExeption(e);
                 }
             }
+
+
         }
+        return rep;
     }
 }
+
