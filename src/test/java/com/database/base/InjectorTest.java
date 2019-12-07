@@ -11,7 +11,6 @@ import ru.vsu.lab.entities.IPerson;
 import ru.vsu.lab.entities.enums.Gender;
 import ru.vsu.lab.repository.IRepository;
 
-import java.io.IOException;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;

@@ -5,8 +5,6 @@ import ru.vsu.lab.entities.IPerson;
 
 import java.io.IOException;
 
-import static org.junit.jupiter.api.Assertions.*;
-
 class StreamApiTest {
 
     @Test

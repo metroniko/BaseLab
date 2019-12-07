@@ -8,8 +8,6 @@ import reflection.LabInject;
 import ru.vsu.lab.entities.IPerson;
 import ru.vsu.lab.repository.IRepository;
 
-import java.io.IOException;
-
 import java.util.Arrays;
 import java.util.Comparator;
 import java.util.List;

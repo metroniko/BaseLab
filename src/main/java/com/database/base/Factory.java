@@ -20,7 +20,7 @@ class Factory implements ILabFactory {
 
     @Override
     public <T> IRepository<T> createRepository(Class<T> clazz) {
-        return  new Base<T>();
+        return new Base<>();
     }
 
     @Override

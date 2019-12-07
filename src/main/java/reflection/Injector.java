@@ -1,7 +1,6 @@
 package reflection;
 
 import com.database.sort.ISorted;
-import ru.vsu.lab.repository.IRepository;
 
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -18,7 +17,7 @@ public class Injector<T> {
      * @param rep объект класса репозитория в поля которого будут проверяться с
      *            помощью рефлексии.
      * @param <T> параметр типизации.
-     * @throws IOException ошибка при необнаружении файла .properties.
+     * @throws InjectorExeption ошибка при необнаружении файла .properties.
      */
     public static <T> T inject(T rep) throws InjectorExeption {
         String propsPath = "src\\main\\resources\\props.properties";
