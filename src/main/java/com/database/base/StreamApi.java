@@ -64,6 +64,7 @@ public class StreamApi<T extends  IPerson> {
 
         return personNameSalary;
     }
+
     public List<T> streamPersonName() {
         Stream<T> personStream = parseList.stream();
         List<T> personName = personStream.filter(per -> per
