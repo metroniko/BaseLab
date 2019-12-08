@@ -11,24 +11,28 @@ import java.util.stream.Stream;
 
 
 /**
- * класс для преобразования работы с контейнером
+ * класс для преобразования работы
+ * с контейнером
  * при помощи streamApi.
- * @param <T> тип который будет содержать контейнер.
+ * @param <T> тип который будет содержать
+ *           контейнер.
  */
-public class StreamApi<T extends  IPerson> {
+public class StreamApi<T extends IPerson> {
     /**
-     * контейнер который нужно будет распарсить.
+     * контейнер который нужно будет
+     * распарсить.
      */
     private List<T> parseList;
 
     /**
      * конструктор в котором парсится
      * база данных.
-     * @param rep объект, dв котроый будут записываться
+     * @param rep объект, dв котроый будут
+     *            записываться
      *            данные.
      * @throws IOException исключение.
      */
-    public StreamApi(IRepository rep) throws IOException {
+    public StreamApi(final IRepository rep) throws IOException {
         CvsParser.parseBase(rep);
         this.parseList = rep.toList() ;
     }
@@ -42,7 +46,8 @@ public class StreamApi<T extends  IPerson> {
     public List<T> streamPersonNameSalary() {
         Stream<T> personStream = parseList.stream();
 
-        return personStream.filter(per -> per.getFirstName().substring(0,1).equals("A") &&
+        return personStream.filter(per -> per.getFirstName()
+                .substring(0,1).equals("A") &&
                 per.getSalary().intValueExact() > 3000 &&
                 per.getAge() > 30).collect(Collectors.toList());
     }
@@ -65,11 +70,12 @@ public class StreamApi<T extends  IPerson> {
      * отделениям и общей зарплаты сотрудников.
      * @return отфильтрованный контейнер
      */
-    public  Map<? extends  IDivision, Long> streamPersonSalary() {
+    public  Map<? extends IDivision, Long> streamPersonSalary() {
         Stream<T> personStream = parseList.stream();
 
         return personStream.collect(
-                Collectors.groupingBy(IPerson::getDivision, Collectors.summingLong(per -> per
+                Collectors.groupingBy(IPerson::getDivision,
+                        Collectors.summingLong(per -> per
                         .getSalary()
                         .intValueExact())));
     }
@@ -78,7 +84,7 @@ public class StreamApi<T extends  IPerson> {
      * отделениям и количеству людей в отделении.
      * @return отфильтрованный контейнер.
      */
-    public Map<? extends  IDivision, Long> streamDepartmentPersons () {
+    public Map<? extends IDivision, Long> streamDepartmentPersons() {
         Stream<T> personStream = parseList.stream();
         return personStream.collect(Collectors.groupingBy(
                 IPerson::getDivision,Collectors.counting()));

@@ -57,7 +57,8 @@ public class Base<T> implements IRepository<T> {
         }
         if (personLenght == 0 || !getPerson(person).isPresent()) {
             T tempPerson = (T) factory.createPerson();
-            ((Person)tempPerson).setValues(((Person)person).getFirstName(),
+            ((Person)tempPerson).setValues(
+                    ((Person)person).getFirstName(),
                     ((Person)person).getLastName(),
                     ((Person)person).getGender(),
                     ((Person)person).getBirthdate(),
@@ -69,7 +70,8 @@ public class Base<T> implements IRepository<T> {
             personBase[personLenght] = tempPerson;
             personLenght++;
         } else {
-            System.out.println("Такой пользователь существует в базе");
+            System.out.println("Такой пользователь " +
+                    "существует в базе");
         }
     }
 
@@ -82,12 +84,14 @@ public class Base<T> implements IRepository<T> {
      */
     @Override
     public T get(final int index) {
+
         return personBase[index];
     }
 
     /**
      * удаляет пользователя по индексу.
-     * @param index индекс, по которому мужно удалить пользователя.
+     * @param index индекс, по которому мужно
+     *              удалить пользователя.
      * @return возвращает удалённого пользователя.
      */
     @Override
