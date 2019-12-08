@@ -24,7 +24,7 @@ public class StreamApi<T extends  IPerson> {
     /**
      * конструктор в котором парсится
      * база данных.
-     * @param rep объект, в котроый будут записываться
+     * @param rep объект, dв котроый будут записываться
      *            данные.
      * @throws IOException исключение.
      */
