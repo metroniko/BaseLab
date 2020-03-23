@@ -1,12 +1,16 @@
 package com.database.base;
 
+import com.sun.deploy.xml.XMLAttribute;
 import ru.vsu.lab.entities.IDivision;
 
+import javax.xml.bind.annotation.*;
 import java.util.Objects;
 
+@XmlRootElement
 public class Division implements IDivision {
 
     private Integer id;
+
     private String name;
 
     @Override
@@ -41,5 +45,13 @@ public class Division implements IDivision {
     @Override
     public int hashCode() {
         return Objects.hash(id, name);
+    }
+
+    @Override
+    public String toString() {
+        return "Division{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                '}';
     }
 }

@@ -1,10 +1,14 @@
 package com.database.base;
 
+import com.database.JAXB.DivisionAdapter;
+import com.database.JAXB.LocalDateAdapter;
 import org.joda.time.LocalDate;
 import ru.vsu.lab.entities.IDivision;
 import ru.vsu.lab.entities.IPerson;
 import ru.vsu.lab.entities.enums.Gender;
 
+import javax.xml.bind.annotation.*;
+import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
@@ -13,11 +17,12 @@ import java.util.Objects;
 /**
  * a class that stores parameters about a user.
  */
+@XmlRootElement(name = "person")
 public class Person implements IPerson {
     /**
      * подразделение.
      */
-    private IDivision division;
+    private Division division;
     /**
      * имя.
      */
@@ -33,10 +38,12 @@ public class Person implements IPerson {
     /**
      * день рождения.
      */
+
     private java.time.LocalDate birthdate;
     /**
      * массив подразделений.
      */
+
     static final List<IDivision> alldDivision = new ArrayList<>();
 
     @Override
@@ -59,6 +66,7 @@ public class Person implements IPerson {
         this.lastName = firstNameReq;
     }
 
+    @XmlJavaTypeAdapter(LocalDateAdapter.class)
     @Override
     public final java.time.LocalDate getBirthdate() {
         return this.birthdate;
@@ -84,6 +92,7 @@ public class Person implements IPerson {
         this.gender = genderReq;
     }
 
+    @XmlElement(type = Division.class)
     @Override
     public final IDivision getDivision() {
         return division;
@@ -91,7 +100,7 @@ public class Person implements IPerson {
 
     @Override
     final public void setDivision(final IDivision divisionReq) {
-        this.division = divisionReq;
+        this.division = (Division) divisionReq;
     }
 
     @Override
@@ -172,7 +181,7 @@ public class Person implements IPerson {
         this.firstName = reqfirstNameParam;
         this.lastName = reqLastNameParam;
         this.birthdate = birthdateParam;
-        this.division = divisionParam;
+        this.division = (Division) divisionParam;
         this.gender = reqGenderParam;
         this.salary = salaryParam;
         this.id = idParam;

@@ -1,6 +1,8 @@
 package com.database.base;
 
 import au.com.bytecode.opencsv.CSVReader;
+import com.sun.org.slf4j.internal.Logger;
+import com.sun.org.slf4j.internal.LoggerFactory;
 import ru.vsu.lab.entities.IDivision;
 import ru.vsu.lab.entities.IPerson;
 import ru.vsu.lab.entities.enums.Gender;
@@ -15,16 +17,18 @@ import java.time.format.DateTimeFormatter;
 /**
  * класс для парсинга файла в объект
  */
-class CvsParser {
+public class CvsParser {
     private static final Factory factory = new Factory();
+
+    private static final Logger LOG = LoggerFactory.getLogger(CvsParser.class);
 
     /**
      * класс парсит базу данных из csv файла
      * @param base объект базы, в которую нужно спарсить
      * @throws IOException при невозможнот найти файл
      */
-    static void parseBase(final IRepository<IPerson> base) throws IOException {
-
+    public static void parseBase(final IRepository<IPerson> base) throws IOException {
+        LOG.debug("[ parseBase: {} ]", base);
         final CSVReader reader = new CSVReader(new
                 FileReader(
                 "src\\main\\resources\\persons.csv"),
@@ -65,8 +69,10 @@ class CvsParser {
      * @return объект депортамента
      */
     static private IDivision checkArrayDivision(String divisionName) {
+        LOG.debug("[ checkArrayDivision: {}", divisionName);
         for (IDivision currentDivision: Person.alldDivision) {
             if(currentDivision.getName().equals(divisionName)) {
+                LOG.debug("] return : {}", currentDivision);
                 return currentDivision;
             }
         }
@@ -74,6 +80,7 @@ class CvsParser {
         newDivision.setName(divisionName);
         newDivision.setId(Person.alldDivision.size() + 1);
         Person.alldDivision.add(newDivision);
+        LOG.debug("] return : {}", newDivision);
         return newDivision;
     }
 }

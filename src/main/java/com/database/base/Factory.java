@@ -7,7 +7,7 @@ import ru.vsu.lab.repository.IPersonRepository;
 import ru.vsu.lab.repository.IRepository;
 
 
-class Factory implements ILabFactory {
+public class Factory implements ILabFactory {
     @Override
     public IPerson createPerson() {
         return new Person();

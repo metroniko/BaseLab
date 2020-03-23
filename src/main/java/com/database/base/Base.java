@@ -2,12 +2,15 @@ package com.database.base;
 
 import com.database.sort.BubbleSorter;
 import com.database.sort.ISorted;
+import com.sun.org.slf4j.internal.Logger;
+import com.sun.org.slf4j.internal.LoggerFactory;
 import reflection.Injector;
 import reflection.InjectorExeption;
 import reflection.LabInject;
 import ru.vsu.lab.entities.IPerson;
 import ru.vsu.lab.repository.IRepository;
 
+import javax.xml.bind.annotation.*;
 import java.util.Arrays;
 import java.util.Comparator;
 import java.util.List;
@@ -21,7 +24,11 @@ import java.util.function.Predicate;
  */
 @SuppressWarnings("unchecked")
 
+@XmlRootElement
+@XmlAccessorType(XmlAccessType.FIELD)
 public class Base<T> implements IRepository<T> {
+
+    private static final Logger LOG = LoggerFactory.getLogger(Base.class);
     /**
      * объект фабрики.
      */
@@ -29,11 +36,13 @@ public class Base<T> implements IRepository<T> {
     /**
      * массив объектов.
      */
+    @XmlElement(name = "person")
     private T[] personBase = (T[]) new Object[10];
 
     /**.
      * number of items in the database.
      */
+    @XmlElement(name = "personLenght")
     private int personLenght = 0;
 
     /**
@@ -43,6 +52,7 @@ public class Base<T> implements IRepository<T> {
      */
     @Override
     final public void add(final T person) {
+        LOG.debug("[add, {}", person);
         if (personBase.length == personLenght) {
             T[] newPersonBase = (T[]) new IPerson[
                     personBase.length
@@ -70,9 +80,9 @@ public class Base<T> implements IRepository<T> {
             personBase[personLenght] = tempPerson;
             personLenght++;
         } else {
-            System.out.println("Такой пользователь " +
-                    "существует в базе");
+            LOG.error("Такой пользователь не существует в базе");
         }
+        LOG.debug("]");
     }
 
 
@@ -84,7 +94,8 @@ public class Base<T> implements IRepository<T> {
      */
     @Override
     public T get(final int index) {
-
+        LOG.debug("[get: {}", index);
+        LOG.debug("] return : {}", personBase[index]);
         return personBase[index];
     }
 
@@ -96,6 +107,7 @@ public class Base<T> implements IRepository<T> {
      */
     @Override
     public T delete(int index) {
+        LOG.debug("[delete: {}", index);
         T tempPerson = personBase[index];
         for (int j = index; j < personLenght - 1; j++) {
             personBase[j] =  personBase[++j];
@@ -103,6 +115,7 @@ public class Base<T> implements IRepository<T> {
         }
         personBase[personLenght - 1] = null;
         personLenght = personLenght - 1;
+        LOG.debug("] return : {}", tempPerson);
         return tempPerson;
 
     }
@@ -120,7 +133,9 @@ public class Base<T> implements IRepository<T> {
      */
     @Override
     public T set(int index, T person) {
+        LOG.debug("[set: {} {}", index, person);
         personBase[index] = person;
+        LOG.debug("]");
         return personBase[index];
     }
 
@@ -133,6 +148,7 @@ public class Base<T> implements IRepository<T> {
      */
     @Override
     public void add(int index, T person) {
+        LOG.debug("[add: {} {}]", index, person);
         if (personBase.length == personLenght) {
             T[] newPersonBase = (T[]) new Person[personBase.length
                     + (int)Math.ceil(1.5 * personBase.length)];
@@ -173,6 +189,8 @@ public class Base<T> implements IRepository<T> {
     /**
      * объект для сортировки репозитория.
      */
+
+    @XmlAnyElement
     @LabInject
     private ISorted<T> sorter;
 
@@ -216,11 +234,14 @@ public class Base<T> implements IRepository<T> {
      * @return if the object is present, it returns it.
      */
     private Optional<T> getPerson(final T requiredPerson) {
+        LOG.debug("[getPerson: {}", requiredPerson);
         for (int i = 0; i < personLenght; i++) {
             if (personBase[i].equals(requiredPerson)) {
+                LOG.debug("] return : {}",  Optional.of(personBase[i]));
                 return Optional.of(personBase[i]);
             }
         }
+        LOG.debug("] return : {}", Optional.empty());
         return Optional.empty();
     }
 

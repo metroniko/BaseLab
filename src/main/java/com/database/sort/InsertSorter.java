@@ -1,5 +1,7 @@
 package com.database.sort;
 
+import com.sun.org.slf4j.internal.Logger;
+import com.sun.org.slf4j.internal.LoggerFactory;
 import ru.vsu.lab.repository.IRepository;
 
 import java.util.Comparator;
@@ -8,6 +10,8 @@ import java.util.Comparator;
  * сортировка вставками.
  */
 public class InsertSorter<T> implements ISorted<T> {
+
+    private static final Logger LOG = LoggerFactory.getLogger(InsertSorter.class);
     /**
      * метод для сортировки вставками.
      * @param repository база данных пользователя.
@@ -16,6 +20,7 @@ public class InsertSorter<T> implements ISorted<T> {
     @Override
     public void sort(final IRepository<T> repository,
                      final Comparator<T> comparator) {
+        LOG.debug("[sort: {}, {} ]", repository, comparator);
         int personLength = 0;
         for (T iPerson : repository.toList()) {
             if (iPerson != null) {
